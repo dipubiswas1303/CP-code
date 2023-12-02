@@ -1,0 +1,41 @@
+/*
+	How many n digit numbers are divisible by k?
+	1 <= n, k <= 1000
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef vector<ll> vl;
+
+#define YES cout << "YES\n"
+#define NO cout << "NO\n"
+#define nn "\n"
+#define nnn cout << "\n"
+#define LL_INF (1LL << 62)
+#define INF (1 << 30)
+ll dp[1001][1001];
+
+int n, k;
+
+int func(int pos, int rem){
+	if(pos == n){
+		return rem == 0;
+	}
+	if(dp[pos][rem] != -1) return dp[pos][rem];
+	int ans = 0;
+	for(ll i = 0; i < 10; ++i){
+		if(pos == 0 && i == 0) continue;
+		ans += func(pos + 1, (rem*10 + i) % k); 
+	}
+	return dp[pos][rem] = ans;
+}
+
+int main(){
+	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	memset(dp, -1, sizeof(dp));
+	cin >> n >> k;
+
+	cout << func(0, 0) << nn;
+	return 0;
+}
